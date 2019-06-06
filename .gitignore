@@ -1,0 +1,62 @@
+
+# General things to ignore
+## files being edited
+*.swp
+.~
+
+# Ignore the build directory
+build/
+release/
+debug/
+
+# C++ gitignore
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+#*.obj
+*.ko
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+#*.mod
+#*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Sublime Text files
+*.sublime-project
+*.sublime-workspace
+
+# Mac Files
+*.DS_Store
+
+# Files from setuptools
+.eggs/
+gamer.egg-info/
+dist/
+_skbuild/
+
+*.whl
+*.egg-info
