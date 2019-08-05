@@ -1,45 +1,75 @@
-####################################################
-Using GAMer in Blender to Refine a Subcellular Model
-####################################################
+##############################################
+Using BlendGAMer to Refine a Subcellular Model
+##############################################
 
 ************
 Introduction
 ************
 
-In this tutorial, we will use ``GAMer`` to improve the quality of a surface mesh.
-You will need the following installed on your system:
+In this tutorial, you will learn how to use ``BlendGAMer`` to generate a tetrahedral mesh suitable for Finite Element computation from a volume electron microscopy (EM) dataset. You will learn how to:
+
+- Import segmented geometries in ``Blender``
+- How to use ``BlendGAMer`` to improve the quality of the surface mesh
+- Use mesh boolean operations to construct a domain of interest
+- Generate a tetrahedral mesh with marked domains and boundaries
+
+To complete this tutorial you will need the following installed on your system:
 
 - ``Blender`` 2.79b (`Download Blender Here <https://download.blender.org/release/Blender2.79/>`__)
 - ``BlendGAMer`` v2.0.3 or later (:ref:`Getting Blendgamer`)
 - (Recommended) three-button mouse
 - (Recommended) full size keyboard
 
+.. note::
+   We strongly recommend the use of a 3-button mouse and full keyboard with numeric keyboard.
+   While they aren't strictly necessary, for brevity, this tutorial will present keyboard shortcuts for each step.
+   The locations of menu options corresponding to the shortcuts we leave as an exercise to the user.
+
 Our model of interest today is the murine cardiac myocyte calcium release unit.
-You can get the segmentation from the `Cell Centered Database <http://ccdb.ucsd.edu/home>`__, a collection of 2D, 3D, and 4D cellular and subcellular data derived from light and electron microscopy.
+You can get the raw electron micrographs and segmentations from the `Cell Image Library <http://www.cellimagelibrary.org/home>`__, a collection of 2D, 3D, and 4D cellular and subcellular data derived from light and electron microscopy.
 The data we will be using today is from entry `3603 <https://library.ucsd.edu/dc/object/bb80572041>`__.
-For the purposes of this tutorial, we have selected a nicely segmented section for model building.
-`IMOD <https://bio3d.colorado.edu/imod/>`__ was used to generate a preliminary surface mesh in `obj` format.
+For the purposes of this tutorial, we have selected a nicely segmented section of the dataset for model building, shown in :numref:`figcomponents`.
+The software `IMOD <https://bio3d.colorado.edu/imod/>`__ was used to segment and generate a preliminary mesh in this example.
+
+.. _figcomponents:
+.. figure:: ../images/components.png
+   :figclass: align-center
+
+   Components of the scene
 
 Preliminary surface meshes from segmentations are typically of poor quality for computation.
-A poor quality mesh is defined as one which will lead to large errors in computation or inefficiency.
-For triangulated surface meshes, the quality of the mesh can be qualitatively judged by evenness of the edge and node distribution.
+A poor quality mesh is broadly defined as one which will lead to large errors in computation or inefficiency.
+For triangulated surface meshes, the quality of the mesh can be qualitatively judged by visually inspecting the evenness of the edge and vertex distributions.
 Quantitatively, mesh quality is measured by mesh topology and proportion of high aspect triangles (triangles with extremely large and small angles).
-
+A higher quality mesh will contain more equilateral shaped triangles.
 
 ****************************
 Import OBJ File into Blender
 ****************************
+
+Instead of starting with the raw EM data, performing segmentation, and contour tiling, we have already generated an initial mesh for you.
 
 #.  Download the `obj file <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.obj>`__.
     Hint: right click and "Save As" to download as a file.
 
 #.  Now we can open up this ``.obj`` file in blender.
 
-    - Start ``Blender``. Open the application from the start menu or by typing ``blender`` on the command line.
+    - Start ``Blender``. Open the application from the start menu or by typing ``blender`` on the command line. You should see something like this.
+
+      .. image:: ../images/blender_overview.png
+         :align: center
+
+      There are several panels and regions in the default ``Blender`` interface.
+      Please refer to this if you cannot find a panel in later steps.
+
+    - The Cube, Camera and Lamp are placed in the viewport by default.
+      We won’t need them so go ahead and delete them.
+      Note, Blender has lots of useful keyboard shortcuts. Where applicable in the tutorial, relevant shortcuts are shown as follows: **Select All** [A], **Delete** [X].
+
     - Change the Rotation Mode by going to **User Preferences > Input tab > track-ball**
     - Import the data file with **File > Import > Wavefront (.obj)** and select **tt-sr-mit.obj**
 
-    .. image:: ../images/import_obj.png
+      .. image:: ../images/import_obj.png
 
 
 *********************************
@@ -51,12 +81,12 @@ Preliminary Work on Imported Mesh
 
     - Make sure you have **all four objects selected** by holding **shift-LMB** and **clicking** (i.e. left-mouse-button) each object, selected objects will have an orange circle around their respective triangle.
     - With the cursor inside of the **3D view window**, press the **Period** on
-      the **Numpad** to **View >> View Selected**.
+      the **Numpad** to **View > View Selected**.
 
     .. image:: ../images/3dview_object_selected.png
 
 #.  You may notice that parts of the model are getting truncated by the clipping plane.
-    To remove the visual artifacts, we can increase the distance of the far clipping pane
+    To remove the visual artifacts, we can increase the distance of the far clipping pane.
 
     - Open the **Properties** panel by having the cursor in the **3D view window** and then hitting **n**.
     - Navigate to the **View** subpanel.
@@ -65,6 +95,8 @@ Preliminary Work on Imported Mesh
     .. image:: ../images/end_2000.png
 
     - For geometric models, it is often useful to change to the orthographic view [**numpad 5**].
+
+    .. image:: ../images/panel_overview.png
 
 #.  We need the model to be in one volumetric domain so let us join it.
     In the **Outliner** hold **shift-LMB** and **click** (i.e. left-mouse-button) each object with **obj1_T-Tub_1** selected last which will appear white.
@@ -108,26 +140,45 @@ Preliminary Work on Imported Mesh
 
       .. image:: ../images/ctrl_rotationscale.png
 
-#.  CHECKPOINT: Let’s save our work now as: **tt-sr-mit.imp_obj.blend**.
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.imp_obj.blend>`__: Let’s save our work now as: **tt-sr-mit.imp_obj.blend**.
     Note that if something goes awry, you can always close Blender and reopen at this checkpoint!
+    Checkpoints are also available online.
 
 **********************************
 Analyze Mesh, Clean-up, and Repeat
 **********************************
 
-#.  We can use the mesh analyzer function of CellBlender to inspect the mesh for suitability for computational analysis.
-    I.e., that there are no unexpected holes or bizarre topologies.
+#.  ``BlendGAMer`` has a mesh analysis report which can help you to inspect the mesh's quality.
 
-    - Click on the **CellBlender-Mesh Analysis** drop down located just above the **CellBlender** dropdown, then press the **Analyze Mesh** button.
-      You should see that it is **not watertight and non-manifold**.
-      Now we know that there is a hole in the mesh somewhere, rendering it non-watertight.
-      Similarly there are some topological issues indicated by non-manifold topology.
-      Manifold geometry is essentially geometry which can exist in the real world.
-      For some pragmatic examples of non-manifold geometry please consult the following `stackexchange <https://blender.stackexchange.com/questions/7910/what-is-non-manifold-geometry>`__.
+    - In the **Tool Shelf** select the **GAMer** tab and go to the **Mesh Quality Reporting** panel.
+      Click the **Generate Mesh Report** button.
+      You should see a number of statistics appear.
 
-    .. image:: ../images/analyze_mesh.png
+      .. image:: ../images/meshanalysis.png
+         :width: 250px
 
-#.  Let’s start by cleaning up regions of non-manifold topology.
+      Here is a summary of the report features:
+
+      - **Volume**: The volume of the geometry
+      - **Area**: The surface area of the mesh
+      - **Number of Wagonwheels**: The number of vertices with adjacency greater than the setting above (default: 8)
+      - **Sharp faces**: High aspect ratio triangles with an angle less than the threshold set above (default: 15)
+      - **Non Manifold Edges**: Number of edges not connected to two faces
+      - **Bad Contiguous Edges**: Edges across which the normal orientation of the mesh is inconsistent
+      - **Non Manifold Vertices**: Vertices participating in a non-manifold feature
+      - **Intersecting Face**: Faces which intersect with another
+      - **Zero Area Faces**: Faces with zero area
+      - **Zero Length Edges**: Edges with zero length
+
+      We can see that this initial mesh has a number of issues.
+      Most importantly, there are a number of non-manifold edges and vertices.
+
+      .. note::
+         Manifold geometry is essentially geometry which can exist in the real world.
+         For some pragmatic examples of non-manifold geometry please consult the following `stackexchange <https://blender.stackexchange.com/questions/7910/what-is-non-manifold-geometry>`__.
+
+#.  Let’s start by cleaning up these regions of non-manifold topology.
+    The other issues, including wagonwheels, sharp faces, and intersections will be resolved by ``BlendGAMer`` mesh conditioning.
 
     - First engage **Edit Mode** [**Tab**] and while having the cursor in the **3D view window** deselect everything by pressing [**a**].
     - Hit **Ctrl-Tab** and select **Vertex** select mode.
@@ -152,15 +203,16 @@ Analyze Mesh, Clean-up, and Repeat
 
       .. image:: ../images/degenerate_dissolve.png
 
-    - This will leave some holes in the mesh. We can automatically fill the holes by again selecting **Mesh** near the bottom left of the 3D window, then **Clean up**, then **Fill Holes**.
+    - This will leave some holes in the mesh.
+      We can automatically fill the holes by again selecting **Mesh** near the bottom left of the 3D window, then **Clean up**, then **Fill Holes**.
 
       .. image:: ../images/fill_holes.png
 
-    - Let’s now check how many issues we have resolved.
+    - Let’s check to see if all of the issues have been resolved.
       Deselect everything by pressing [**a**] with the cursor in the **3D window** again and then near the botttom left of the 3D window click **Select**, then **Select All By Trait**, then **Non Manifold**.
       Or we could use [**Shift+Ctrl+Alt+m**] as a shortcut.
 
-    - We see that the mesh has been substantially improved but is not perfect yet.
+    - We see that the mesh has been improved but there remains one region with an issue.
 
       .. image:: ../images/almost_manifold.png
 
@@ -188,39 +240,24 @@ Analyze Mesh, Clean-up, and Repeat
 
       .. image:: ../images/mesh_faces_triangle.png
 
-#.  Our mesh is starting to look pretty good! Let’s re-run mesh analyzer
-
-    - Return to **Object Mode** [**Tab**] or by pressing the list by the bottom of the 3D window.
-
-      .. image:: ../images/tabbutton.png
-
-      .. image:: ../images/tabbutton_objectmode.png
-
-    - Rerun mesh analysis: click the drop down **CellBlender-Mesh Analysis**, then **Analyze Mesh**.
-      We now have a **Watertight** and **Manifold** mesh but we have **Inward Facing normals**.
-      This means that everything is good except the mesh is **inside out**!
-
-      .. image:: ../images/analyze_mesh_fixed.png
-
-#.  To reset the orientation of the faces, we need to recalculate the normals.
-
-    - Return to **Edit Mode** [**Tab**].
+#.  Our mesh is starting to look pretty good!
+    Let’s re-run the mesh quality report.
+    Note that the volume is reporting a negative number.
+    This is because the normals of the mesh are currently facing the wrong way.
+    You can follow these steps to fix this issue.
+    Alternatively, ``BlendGAMer`` can also automatically detect this problem and flip the normals automatically in later steps.
 
     - Select **Mesh**, then **Normals**, then **Recalculate Outside** or you could use [**Ctrl+n**] as a shortcut.
 
       .. image:: ../images/mesh_normals_recalculate_outside.png
 
-    - Return to to **Object Mode** [**Tab**], run mesh analyzer again.
-      We now we have good geometry to start with.
-      Be sure to note the **surface area** and **volume**.
+    - Once the normals are flipped the volume and surface area should report 2.6457e7 and 1.34e6 respectively.
 
-      .. image:: ../images/analyze_mesh_area_volume.png
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.clean.blend>`__: Save your progress to: **tt-sr-mit.clean.blend**.
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.clean.blend**.
-
-***********
-Using GAMer
-***********
+**************************************
+Using BlendGAMer to Condition the Mesh
+**************************************
 
 We are now ready to begin surface mesh refinement with GAMer.
 
@@ -247,7 +284,7 @@ We are now ready to begin surface mesh refinement with GAMer.
 
       .. image:: ../images/smooth_tris_changes.png
 
-    - **Coarse Dense Tris**: CD_R, 1; CD_Iter, 5 (~37K vertices)
+    - **Coarse Dense Tris**: CD_R, 1.5; CD_Iter, 5 (~37K vertices)
 
       .. image:: ../images/coarse_dense_tris_changes.png
 
@@ -255,7 +292,7 @@ We are now ready to begin surface mesh refinement with GAMer.
 
       .. image:: ../images/smooth_tris_changes.png
 
-    - **Coarse Dense Tris**: CD_R, 0.5; CD_Iter, 5 (~28K vertices)
+    - **Coarse Dense Tris**: CD_R, 1; CD_Iter, 5 (~28K vertices)
 
       .. image:: ../images/coarse_dense_tris_decrement.png
 
@@ -368,8 +405,7 @@ Once again, we have a surface mesh to refine.
 #.  Let’s begin surface refinement using GAMer
 
     - In **Object Mode** [**Tab**] with the cube selected, perform the following operations in order.
-    After each step the approximate number of vertices remaining is given.
-
+      After each step the approximate number of vertices remaining is given.
     - **Smooth Tris**: Max_Min = 15, S_Iter = 10 (~70K vertices)
     - **Coarse Dense Tris**: CD_R = 0.75, CD_Iter = 10 (~57K vertices)
     - **Coarse Flat Tris**: CF_Rate = 0.016 (~44K vertices)
