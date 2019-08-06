@@ -249,8 +249,6 @@ Analyze Mesh, Clean-up, and Repeat
 
     - Select **Mesh**, then **Normals**, then **Recalculate Outside** or you could use [**Ctrl+n**] as a shortcut.
 
-      .. image:: ../images/mesh_normals_recalculate_outside.png
-
     - Once the normals are flipped the volume and surface area should report 2.6457e7 and 1.34e6 respectively.
 
 #.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.clean.blend>`__: Save your progress to: **tt-sr-mit.clean.blend**.
@@ -262,52 +260,47 @@ Using BlendGAMer to Condition the Mesh
 We are now ready to begin surface mesh refinement with GAMer.
 
 #.  Go to the **GAMer** tab on the left side of Blender.
-    Click on the **Surface Mesh Improvement** button to show this subpanel.
+    Click on the **Surface Mesh Conditioning** subpanel.
 
     .. image:: ../images/surface_mesh_improve.png
 
     The subpanel provides several functions as follows:
 
-    - **Coarse Dense Tris**: reduces the number of triangles in densely triangulated portions of the mesh.
+    - **Normal Smooth**: smooths surface roughness using a feature-preserving normal averaging algorithm.
 
-    - **Coarse Flat Tris**: reduces the number of triangles in flat regions of the mesh.
+    - **Fill Holes**: Triangulates holes in the mesh.
 
-    - **Smooth Tris**: improves the aspect ratio of triangles by maximizing angles.
+    The following tools are only available in **Edit Mode** and operate on selected vertices only.
+
+    - **Coarse Dense**: reduces the number of triangles in densely triangulated portions of the mesh.
+
+    - **Coarse Flat**: reduces the number of triangles in flat regions of the mesh.
+
+    - **Smooth**: improves the aspect ratio of triangles by maximizing angles.
       It does so by flipping edges moving vertices based on angle and the local structure tensor.
 
-    - **Normal Smooth Surf**: smooths surface roughness using a feature-preserving normal averaging algorithm.
 
-#.  In **Object Mode** [**Tab**] with the model selected, perform the following operations in order.
+#.  In **Edit Mode** [**Tab**] with the full model selected, perform the following operations in order.
     After each step the approximate number of vertices remaining is given.
 
-    - **Smooth Tris**: Max_Min = 15, S_Iter = 10 (~73K vertices)
+    - **Smooth**: S_Iter = 15 (~73K vertices)
+    - **Coarse Dense**: CD_R, 1.5; CD_Iter, 5 (~35K vertices)
+    - **Smooth**: S_Iter, 15
+    - **Coarse Dense**: CD_R, 1; CD_Iter, 5 (~23K vertices)
+    - **Smooth**: S_Iter, 20
+    - **Normal Smooth**
 
-      .. image:: ../images/smooth_tris_changes.png
+#.  Returning to the **Mesh Quality Reporting** generate a new report.
+    Most of the issues previously reported should be resolved at this point.
+    At this point continue to **Smooth** the mesh until there are no sharp faces reported.
+    Note that you can change the threshold for sharp faces by changing the ``Angle Threshold`` above.
 
-    - **Coarse Dense Tris**: CD_R, 1.5; CD_Iter, 5 (~37K vertices)
+    .. note::
+       If there are specific regions of your mesh where there are persistent intersecting faces, in **Edit Mode** you can select them from the **Mesh Stats Report** by clicking the corresponding button.
+       With these regions selected, you can apply iterations of **smooth** directly to these regions.
 
-      .. image:: ../images/coarse_dense_tris_changes.png
-
-    - **Smooth Tris**: Max_Min, 15; S_Iter, 10
-
-      .. image:: ../images/smooth_tris_changes.png
-
-    - **Coarse Dense Tris**: CD_R, 1; CD_Iter, 5 (~28K vertices)
-
-      .. image:: ../images/coarse_dense_tris_decrement.png
-
-    - **Smooth Tris**: Max_Min, 20; S_Iter, 20
-
-      .. image:: ../images/smooth_tris_increment.png
-
-    - Click **Normal Smooth Surf** twice
-
-      .. image:: ../images/normal_smooth_surf_twice.png
-
-#.  While in **Object Mode** [**Tab**], click **CellBlender**, then **CellBlender-Mesh Analyzer**, then **Mesh Analyzer**.
-    Note the slightly smaller **surface area** but similar **volume**.
-
-    .. image:: ../images/analyze_mesh_area_volume_change.png
+#.  The mesh is starting to look pretty good.
+    Rerun the mesh quality report and note the slightly smaller **surface area** but similar **volume** around 1.13e6 and 2.64e7 respectively.
 
 #.  CHECKPOINT: Save your progress to: **tt-sr-mit.gamer_proc_1.blend**
 
@@ -315,7 +308,7 @@ We are now ready to begin surface mesh refinement with GAMer.
 Add Boundary Box
 ****************
 
-#.  Now that we have a reasonable surface mesh of our features, we want to place a boundary box around the features to represent the cytosol.
+Now that we have a reasonable surface mesh of our features, we want to place a boundary box around the features to represent the cytosol.
 
 #.  First we center the 3D cursor to the center.
     We will next add a cube at the position of the 3D cursor.
