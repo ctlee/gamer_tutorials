@@ -300,29 +300,31 @@ We are now ready to begin surface mesh refinement with GAMer.
        With these regions selected, you can apply iterations of **smooth** directly to these regions.
 
 #.  The mesh is starting to look pretty good.
-    Rerun the mesh quality report and note the slightly smaller **surface area** but similar **volume** around 1.13e6 and 2.64e7 respectively.
+    Rerun the mesh quality report and note the slightly smaller surface area but similar volume around 1.13e6 and 2.64e7 respectively.
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.gamer_proc_1.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.gamer_proc_1.blend>`__: Save your progress to: **tt-sr-mit.gamer_proc_1.blend**
 
 ****************
 Add Boundary Box
 ****************
 
-Now that we have a reasonable surface mesh of our features, we want to place a boundary box around the features to represent the cytosol.
+Now that we have a reasonable surface mesh of the organelle membranes.
+If we want to model diffusion in the cytosol we must invert the domain to represent the cytosol.
+First, we want to place a boundary box around the features to represent the cytosolic domain.
+In the next section we will use a mesh boolean operation to perform the inversion.
 
-#.  First we center the 3D cursor to the center.
-    We will next add a cube at the position of the 3D cursor.
+#.  First center the 3D cursor to the center.
     In **Object Mode**, select **Object**, then **Snap**, then **Cursor to Center** or you could use [**Shift+s** and select **Cursor to Center**] as a shortcut.
 
     .. image:: BlenderTutorialImages/object_snap_cursorcenter.png
 
-#.  We will next add a cube at the position of the 3D cursor.
+#.  Next, with the cursor at the origin still, add a cube at the position of the 3D cursor.
     Add a cube mesh object, select **Add**, then **Mesh**, then **Cube**.
     Or you could use [**Shift+a** and select **Mesh**, then **Cube**] as a shortcut.
 
     .. image:: BlenderTutorialImages/add_mesh_cube.png
 
-#.  Switch to **Edit mode** [**Tab**], let’s scale and translate the bounding box to where we want it.
+#.  In **Object mode** [**Tab**], let’s scale and translate the bounding box to where we want it.
     Recall that the **Properties** panel can be summoned with [**n**].
 
     - **Location** (-40, 15, 30)
@@ -334,33 +336,31 @@ Now that we have a reasonable surface mesh of our features, we want to place a b
 #.  The cube is currently a quadrilateral mesh.
     We need to convert it to a triangular mesh.
 
-#.  Switch to **Edit Mode** [**Tab**].
+    - In **Edit Mode** [**Tab**] triangulate by selecting **Mesh**, then **Faces**, then **Triangulate Faces**.
+    Or you could use [**Ctrl+t**] as a shortcut.
 
-#.  To capture detailed features we will need additional triangles.
-    With the cube selected, select **Mesh**, then **Edges**, then **Subdivide** a total of six times.
-    Or you could use [**w** and select **Subdivide**] as a shortcut.
+#.  The cube currently has too few triangles.
+    If we performed the boolean mesh subtraction with this mesh, the post-triangulated result will contain may high aspect ratio triangles.
+    To avoid this we can subdivide the cube domain to improve mesh resolution.
+
+    - In **Edit Mode** [**Tab**] with the cube selected, select **Mesh**, then **Edges**, then **Subdivide** a total of **six** times.
+      Alternatively you can use [**w** and select **Subdivide**] as a shortcut.
 
     .. image:: BlenderTutorialImages/mesh_edges_subdivide.png
-
-#.  Triangulate by selecting **Mesh**, then **Faces**, then **Triangulate Faces**.
-    Or you could use [**Ctrl+t**] as a shortcut.
 
 #.  Return to **Object Mode** [**Tab**].
 
     .. image:: BlenderTutorialImages/subdivide_cube.png
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.with_cube.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.with_cube.blend>`__: Save your progress to: **tt-sr-mit.with_cube.blend**
 
 **********************
 Using Boolean Modifier
 **********************
 
-To get the surface representation of the cytosolic volume, we must subtract our features from our cube mesh.
+To get the a representation of the cytosolic volume, we must subtract our features from the cube mesh.
 
-#.  While in **Object Mode** [**Tab**], go to the **Modifier** tab of the
-    **Properties Panel** and hit **Add Modifier**, **Generate: Boolean**,
-    **Operation: Difference**, Object: **obj1_T-Tub_1** and **Apply** the
-    modifier.
+#.  While in **Object Mode** [**Tab**], with the cube selected, go to the **Modifier** tab of the **Properties Panel** and hit **Add Modifier**, **Generate: Boolean**, **Operation: Difference**, Object: **obj1_T-Tub_1** and **Apply** the modifier.
 
     - In the **Outliner** click on the eye to hide **obj1_T-tub_1**.
     - With the cube selected, apply the current rotation and scale transform.
@@ -371,7 +371,7 @@ To get the surface representation of the cytosolic volume, we must subtract our 
 
     .. image:: BlenderTutorialImages/add_boolean.png
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.boolean.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.boolean.blend>`__: Save your progress to: **tt-sr-mit.boolean.blend**
 
 **********************
 Refine Cube with GAMer
@@ -379,37 +379,37 @@ Refine Cube with GAMer
 
 Once again, we have a surface mesh to refine.
 
-#.  First, in **Edit Mode** [**Tab**], switch to **Vertex** select mode.
-#.  Deselect everything [**a**].
-#.  Next, we can click **Select**, then **Select All By Trait**, then **Non Manifold**, or [**Shift+Ctrl+Alt+m**].
+#.  First let's verify that there are no elements causing non-manifoldness.
+
+    - In **Edit Mode** [**Tab**], switch to **Vertex** select mode.
+    - Deselect everything [**a**].
+    - Next, we can click **Select**, then **Select All By Trait**, then **Non Manifold**, or [**Shift+Ctrl+Alt+m**].
     Nothing should be selected.
     If there are some issues, try performing **Degenerate Dissolve** followed by **Fill Holes**.
-#.  Return to **Object Mode** [**Tab**], and run **Mesh Analyzer**.
-    We find that the mesh is not triangulated.
 
-#.  We can triangulate as before:
+#.  After the boolean operation, the mesh is no longer triangulated.
+    We can triangulate as before:
 
-    - In **Edit Mode** **Tab**, Select All [**a**] , then select **Mesh**, then **Faces**, then **Triangulate Faces** or [**Ctrl+t**].
-    - Return to **Object Mode** [**Tab**], and run **Mesh Analyzer**. We have a good geometry to start refining.
+    - In **Edit Mode** [**Tab**], Select All [**a**] , then select **Mesh**, then **Faces**, then **Triangulate Faces** or [**Ctrl+t**].
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.boolean_clean.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.boolean_clean.blend>`__: Save your progress to: **tt-sr-mit.boolean_clean.blend**
 
+#.  Let’s begin surface refinement using GAMer:
 
-#.  Let’s begin surface refinement using GAMer
-
-    - In **Object Mode** [**Tab**] with the cube selected, perform the following operations in order.
+    - In **Edit Mode** [**Tab**] with the cube selected, perform the following operations in order.
       After each step the approximate number of vertices remaining is given.
-    - **Smooth Tris**: Max_Min = 15, S_Iter = 10 (~70K vertices)
-    - **Coarse Dense Tris**: CD_R = 0.75, CD_Iter = 10 (~57K vertices)
-    - **Coarse Flat Tris**: CF_Rate = 0.016 (~44K vertices)
-    - **Smooth Tris**: Max_Min = 15; S_Iter = 10
-    - **Coarse Dense Tris**: CD_R = 0.1, CD_Iter = 10 (~42K vertices)
-    - **Smooth Tris**: Max_Min = 20; S_Iter = 20
-    - **Normal Smooth Surf** twice
+    - **Smooth**: S_Iter = 10 (~38K vertices)
+    - **Coarse Dense**: CD_R = 0.75, CD_Iter = 10 (~34K vertices)
+    - **Coarse Flat**: CF_Rate = 0.016, CF_Iter = 1 (~19K vertices)
+    - **Smooth**: S_Iter = 10
+    - **Coarse Dense**: CD_R = 0.1, CD_Iter = 10 (~18K vertices)
+    - **Smooth**: S_Iter = 20
+    - **Normal Smooth**
 
-#.  In **Object Mode** [**Tab**], run **Mesh Analyzer**. Note the slightly smaller surface area but similar volume.
+#.  Generate a new mesh report.
+    Note the slightly smaller surface area but similar volume.
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.gamer_proc_2.blend** Now we're ready to add boundaries and associated boundary markers to the mesh!
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.gamer_proc_2.blend>`__: Save your progress to: **tt-sr-mit.gamer_proc_2.blend** Now we're ready to add boundaries and associated boundary markers to the mesh!
 
 
 *************************
