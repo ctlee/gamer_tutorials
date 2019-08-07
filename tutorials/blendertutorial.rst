@@ -32,7 +32,7 @@ For the purposes of this tutorial, we have selected a nicely segmented section o
 The software `IMOD <https://bio3d.colorado.edu/imod/>`__ was used to segment and generate a preliminary mesh in this example.
 
 .. _figcomponents:
-.. figure:: ../images/components.png
+.. figure:: BlenderTutorialImages/components.png
    :figclass: align-center
 
    Components of the scene
@@ -56,7 +56,7 @@ Instead of starting with the raw EM data, performing segmentation, and contour t
 
     - Start ``Blender``. Open the application from the start menu or by typing ``blender`` on the command line. You should see something like this.
 
-      .. image:: ../images/blender_overview.png
+      .. image:: BlenderTutorialImages/blender_overview.png
          :align: center
 
       There are several panels and regions in the default ``Blender`` interface.
@@ -69,7 +69,7 @@ Instead of starting with the raw EM data, performing segmentation, and contour t
     - Change the Rotation Mode by going to **User Preferences > Input tab > track-ball**
     - Import the data file with **File > Import > Wavefront (.obj)** and select **tt-sr-mit.obj**
 
-      .. image:: ../images/import_obj.png
+      .. image:: BlenderTutorialImages/import_obj.png
 
 
 *********************************
@@ -83,7 +83,7 @@ Preliminary Work on Imported Mesh
     - With the cursor inside of the **3D view window**, press the **Period** on
       the **Numpad** to **View > View Selected**.
 
-    .. image:: ../images/3dview_object_selected.png
+    .. image:: BlenderTutorialImages/3dview_object_selected.png
 
 #.  You may notice that parts of the model are getting truncated by the clipping plane.
     To remove the visual artifacts, we can increase the distance of the far clipping pane.
@@ -92,53 +92,53 @@ Preliminary Work on Imported Mesh
     - Navigate to the **View** subpanel.
     - Under **Clip**, change **End** to **2000**.
 
-    .. image:: ../images/end_2000.png
+    .. image:: BlenderTutorialImages/end_2000.png
 
     - For geometric models, it is often useful to change to the orthographic view [**numpad 5**].
 
-    .. image:: ../images/panel_overview.png
+    .. image:: BlenderTutorialImages/panel_overview.png
 
 #.  We need the model to be in one volumetric domain so let us join it.
     In the **Outliner** hold **shift-LMB** and **click** (i.e. left-mouse-button) each object with **obj1_T-Tub_1** selected last which will appear white.
 
-    .. image:: ../images/objects_selected.png
+    .. image:: BlenderTutorialImages/objects_selected.png
 
 #.  Then to join them  have the cursor in the **3D view window** and press (**Ctrl+j**), if done correctly then the four objects should combine into **obj1_T-Tub_1**.
 
-    .. image:: ../images/combined_object_selected.png
+    .. image:: BlenderTutorialImages/combined_object_selected.png
 
 #.  The mesh is currently rendered as a solid material.
     While this is great for the purposes of animation and visualization, we care about the distribution of nodes and edges.
     To show the edges in the Viewport, go to the **Object Properties** tab and select **Wire** and **Draw all Edges** in the **Display** subpanel.
 
-    .. image:: ../images/wire_draw_all_edges.png
+    .. image:: BlenderTutorialImages/wire_draw_all_edges.png
 
 #.  To simplify future manipulation let’s center the model about the origin.
 
     - select **Object** near the bottom left of the 3D window, then select **transform**, then select **Geometry to Origin**.
 
-      .. image:: ../images/object_origin.png
+      .. image:: BlenderTutorialImages/object_origin.png
 
 #.  Set the origin again just as before with the **Period** on the **Numpad** then to set the focus to the front of the object press **1** on the **Numpad**.
     Your **3D View window** should now look something like the following.
 
-    .. image:: ../images/front_face_object.png
+    .. image:: BlenderTutorialImages/front_face_object.png
 
 #.  Let’s now align the model so that the long axis is horizontal.
 
     - Rotate about the y-axis by 45 degrees to line up the model horizontally, by hitting **r**, **y**, and **45**.
 
-      .. image:: ../images/front_face_object_horiz.png
+      .. image:: BlenderTutorialImages/front_face_object_horiz.png
 
 #.  Save this state as the object’s default rotation and scale via one of two ways.
 
     - Select **Object** near the bottom left of the window, then select **Apply**, then select **Rotation and Scale**.
 
-      .. image:: ../images/object_apply_rotationscale.png
+      .. image:: BlenderTutorialImages/object_apply_rotationscale.png
 
     - Or you can press **Ctrl+a** and then select **Rotation and Scale**.
 
-      .. image:: ../images/ctrl_rotationscale.png
+      .. image:: BlenderTutorialImages/ctrl_rotationscale.png
 
 #.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.imp_obj.blend>`__: Let’s save our work now as: **tt-sr-mit.imp_obj.blend**.
     Note that if something goes awry, you can always close Blender and reopen at this checkpoint!
@@ -154,7 +154,7 @@ Analyze Mesh, Clean-up, and Repeat
       Click the **Generate Mesh Report** button.
       You should see a number of statistics appear.
 
-      .. image:: ../images/meshanalysis.png
+      .. image:: BlenderTutorialImages/meshanalysis.png
          :width: 250px
 
       Here is a summary of the report features:
@@ -183,16 +183,16 @@ Analyze Mesh, Clean-up, and Repeat
     - First engage **Edit Mode** [**Tab**] and while having the cursor in the **3D view window** deselect everything by pressing [**a**].
     - Hit **Ctrl-Tab** and select **Vertex** select mode.
 
-      .. image:: ../images/vertex_select.png
+      .. image:: BlenderTutorialImages/vertex_select.png
 
     - Click **Select** near the bottom left of the window, then click **Select All By Trait**, then click **Non Manifold**.
 
-      .. image:: ../images/select_selectbytrait_nonmanifold.png
+      .. image:: BlenderTutorialImages/select_selectbytrait_nonmanifold.png
 
       Or you could press [**Shift+Ctrl+Alt+m**] as a shortcut.
       This highlights all the regions of **non-manifold topologies**.
 
-      .. image:: ../images/non_manifold.png
+      .. image:: BlenderTutorialImages/non_manifold.png
 
 #.  Conveniently non-manifoldness is a problem in the animation industry (it tends to cause problems with raytracing among other things).
     Thus, Blender has some built-in tools to help resolve non-manifoldness.
@@ -201,12 +201,12 @@ Analyze Mesh, Clean-up, and Repeat
       This function will take care of several cases of bad geometry: edges with no length, faces with no area, or face corners with no area.
       It does so by deleting vertices and edges it thinks don’t make sense.
 
-      .. image:: ../images/degenerate_dissolve.png
+      .. image:: BlenderTutorialImages/degenerate_dissolve.png
 
     - This will leave some holes in the mesh.
       We can automatically fill the holes by again selecting **Mesh** near the bottom left of the 3D window, then **Clean up**, then **Fill Holes**.
 
-      .. image:: ../images/fill_holes.png
+      .. image:: BlenderTutorialImages/fill_holes.png
 
     - Let’s check to see if all of the issues have been resolved.
       Deselect everything by pressing [**a**] with the cursor in the **3D window** again and then near the botttom left of the 3D window click **Select**, then **Select All By Trait**, then **Non Manifold**.
@@ -214,7 +214,7 @@ Analyze Mesh, Clean-up, and Repeat
 
     - We see that the mesh has been improved but there remains one region with an issue.
 
-      .. image:: ../images/almost_manifold.png
+      .. image:: BlenderTutorialImages/almost_manifold.png
 
 #.  We can zoom in on the selected region by again having the cursor in the 3D window and then on the **Numpad** select the **Period**.
 
@@ -222,11 +222,11 @@ Analyze Mesh, Clean-up, and Repeat
 
     - Normal view of the culprit vertx
 
-      .. image:: ../images/culprit_vertex.png
+      .. image:: BlenderTutorialImages/culprit_vertex.png
 
     - Close up of the culprit vertex
 
-      .. image:: ../images/culprit_vertex_zoom.png
+      .. image:: BlenderTutorialImages/culprit_vertex_zoom.png
 
 #.  Once again let’s take a look to see if there are any residual problems.
     In **Edit Mode** [**Tab**], click **Select**, then **Select All By Trait**, then **Non Manifold**.
@@ -238,7 +238,7 @@ Analyze Mesh, Clean-up, and Repeat
 
     - To re-triangulate, select everything [**a**] and choose **Mesh**, then **Faces**, then **Triangulate**. Or [**Ctrl+t**] as a shortcut.
 
-      .. image:: ../images/mesh_faces_triangle.png
+      .. image:: BlenderTutorialImages/mesh_faces_triangle.png
 
 #.  Our mesh is starting to look pretty good!
     Let’s re-run the mesh quality report.
@@ -248,8 +248,6 @@ Analyze Mesh, Clean-up, and Repeat
     Alternatively, ``BlendGAMer`` can also automatically detect this problem and flip the normals automatically in later steps.
 
     - Select **Mesh**, then **Normals**, then **Recalculate Outside** or you could use [**Ctrl+n**] as a shortcut.
-
-      .. image:: ../images/mesh_normals_recalculate_outside.png
 
     - Once the normals are flipped the volume and surface area should report 2.6457e7 and 1.34e6 respectively.
 
@@ -262,112 +260,107 @@ Using BlendGAMer to Condition the Mesh
 We are now ready to begin surface mesh refinement with GAMer.
 
 #.  Go to the **GAMer** tab on the left side of Blender.
-    Click on the **Surface Mesh Improvement** button to show this subpanel.
+    Click on the **Surface Mesh Conditioning** subpanel.
 
-    .. image:: ../images/surface_mesh_improve.png
+    .. image:: BlenderTutorialImages/surface_mesh_improve.png
 
     The subpanel provides several functions as follows:
 
-    - **Coarse Dense Tris**: reduces the number of triangles in densely triangulated portions of the mesh.
+    - **Normal Smooth**: smooths surface roughness using a feature-preserving normal averaging algorithm.
 
-    - **Coarse Flat Tris**: reduces the number of triangles in flat regions of the mesh.
+    - **Fill Holes**: Triangulates holes in the mesh.
 
-    - **Smooth Tris**: improves the aspect ratio of triangles by maximizing angles.
+    The following tools are only available in **Edit Mode** and operate on selected vertices only.
+
+    - **Coarse Dense**: reduces the number of triangles in densely triangulated portions of the mesh.
+
+    - **Coarse Flat**: reduces the number of triangles in flat regions of the mesh.
+
+    - **Smooth**: improves the aspect ratio of triangles by maximizing angles.
       It does so by flipping edges moving vertices based on angle and the local structure tensor.
 
-    - **Normal Smooth Surf**: smooths surface roughness using a feature-preserving normal averaging algorithm.
 
-#.  In **Object Mode** [**Tab**] with the model selected, perform the following operations in order.
+#.  In **Edit Mode** [**Tab**] with the full model selected, perform the following operations in order.
     After each step the approximate number of vertices remaining is given.
 
-    - **Smooth Tris**: Max_Min = 15, S_Iter = 10 (~73K vertices)
+    - **Smooth**: S_Iter = 15 (~73K vertices)
+    - **Coarse Dense**: CD_R, 1.5; CD_Iter, 5 (~35K vertices)
+    - **Smooth**: S_Iter, 15
+    - **Coarse Dense**: CD_R, 1; CD_Iter, 5 (~23K vertices)
+    - **Smooth**: S_Iter, 20
+    - **Normal Smooth**
 
-      .. image:: ../images/smooth_tris_changes.png
+#.  Returning to the **Mesh Quality Reporting** generate a new report.
+    Most of the issues previously reported should be resolved at this point.
+    At this point continue to **Smooth** the mesh until there are no sharp faces reported.
+    Note that you can change the threshold for sharp faces by changing the ``Angle Threshold`` above.
 
-    - **Coarse Dense Tris**: CD_R, 1.5; CD_Iter, 5 (~37K vertices)
+    .. note::
+       If there are specific regions of your mesh where there are persistent intersecting faces, in **Edit Mode** you can select them from the **Mesh Stats Report** by clicking the corresponding button.
+       With these regions selected, you can apply iterations of **smooth** directly to these regions.
 
-      .. image:: ../images/coarse_dense_tris_changes.png
+#.  The mesh is starting to look pretty good.
+    Rerun the mesh quality report and note the slightly smaller surface area but similar volume around 1.13e6 and 2.64e7 respectively.
 
-    - **Smooth Tris**: Max_Min, 15; S_Iter, 10
-
-      .. image:: ../images/smooth_tris_changes.png
-
-    - **Coarse Dense Tris**: CD_R, 1; CD_Iter, 5 (~28K vertices)
-
-      .. image:: ../images/coarse_dense_tris_decrement.png
-
-    - **Smooth Tris**: Max_Min, 20; S_Iter, 20
-
-      .. image:: ../images/smooth_tris_increment.png
-
-    - Click **Normal Smooth Surf** twice
-
-      .. image:: ../images/normal_smooth_surf_twice.png
-
-#.  While in **Object Mode** [**Tab**], click **CellBlender**, then **CellBlender-Mesh Analyzer**, then **Mesh Analyzer**.
-    Note the slightly smaller **surface area** but similar **volume**.
-
-    .. image:: ../images/analyze_mesh_area_volume_change.png
-
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.gamer_proc_1.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.gamer_proc_1.blend>`__: Save your progress to: **tt-sr-mit.gamer_proc_1.blend**
 
 ****************
 Add Boundary Box
 ****************
 
-#.  Now that we have a reasonable surface mesh of our features, we want to place a boundary box around the features to represent the cytosol.
+Now that we have a reasonable surface mesh of the organelle membranes.
+If we want to model diffusion in the cytosol we must invert the domain to represent the cytosol.
+First, we want to place a boundary box around the features to represent the cytosolic domain.
+In the next section we will use a mesh boolean operation to perform the inversion.
 
-#.  First we center the 3D cursor to the center.
-    We will next add a cube at the position of the 3D cursor.
+#.  First center the 3D cursor to the center.
     In **Object Mode**, select **Object**, then **Snap**, then **Cursor to Center** or you could use [**Shift+s** and select **Cursor to Center**] as a shortcut.
 
-    .. image:: ../images/object_snap_cursorcenter.png
+    .. image:: BlenderTutorialImages/object_snap_cursorcenter.png
 
-#.  We will next add a cube at the position of the 3D cursor.
+#.  Next, with the cursor at the origin still, add a cube at the position of the 3D cursor.
     Add a cube mesh object, select **Add**, then **Mesh**, then **Cube**.
     Or you could use [**Shift+a** and select **Mesh**, then **Cube**] as a shortcut.
 
-    .. image:: ../images/add_mesh_cube.png
+    .. image:: BlenderTutorialImages/add_mesh_cube.png
 
-#.  Switch to **Edit mode** [**Tab**], let’s scale and translate the bounding box to where we want it.
+#.  In **Object mode** [**Tab**], let’s scale and translate the bounding box to where we want it.
     Recall that the **Properties** panel can be summoned with [**n**].
 
     - **Location** (-40, 15, 30)
 
     - **Scale** (275, 130, 220)
 
-  .. image:: ../images/add_cube.png
+  .. image:: BlenderTutorialImages/add_cube.png
 
 #.  The cube is currently a quadrilateral mesh.
     We need to convert it to a triangular mesh.
 
-#.  Switch to **Edit Mode** [**Tab**].
-
-#.  To capture detailed features we will need additional triangles.
-    With the cube selected, select **Mesh**, then **Edges**, then **Subdivide** a total of six times.
-    Or you could use [**w** and select **Subdivide**] as a shortcut.
-
-    .. image:: ../images/mesh_edges_subdivide.png
-
-#.  Triangulate by selecting **Mesh**, then **Faces**, then **Triangulate Faces**.
+    - In **Edit Mode** [**Tab**] triangulate by selecting **Mesh**, then **Faces**, then **Triangulate Faces**.
     Or you could use [**Ctrl+t**] as a shortcut.
+
+#.  The cube currently has too few triangles.
+    If we performed the boolean mesh subtraction with this mesh, the post-triangulated result will contain may high aspect ratio triangles.
+    To avoid this we can subdivide the cube domain to improve mesh resolution.
+
+    - In **Edit Mode** [**Tab**] with the cube selected, select **Mesh**, then **Edges**, then **Subdivide** a total of **six** times.
+      Alternatively you can use [**w** and select **Subdivide**] as a shortcut.
+
+    .. image:: BlenderTutorialImages/mesh_edges_subdivide.png
 
 #.  Return to **Object Mode** [**Tab**].
 
-    .. image:: ../images/subdivide_cube.png
+    .. image:: BlenderTutorialImages/subdivide_cube.png
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.with_cube.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.with_cube.blend>`__: Save your progress to: **tt-sr-mit.with_cube.blend**
 
 **********************
 Using Boolean Modifier
 **********************
 
-To get the surface representation of the cytosolic volume, we must subtract our features from our cube mesh.
+To get the a representation of the cytosolic volume, we must subtract our features from the cube mesh.
 
-#.  While in **Object Mode** [**Tab**], go to the **Modifier** tab of the
-    **Properties Panel** and hit **Add Modifier**, **Generate: Boolean**,
-    **Operation: Difference**, Object: **obj1_T-Tub_1** and **Apply** the
-    modifier.
+#.  While in **Object Mode** [**Tab**], with the cube selected, go to the **Modifier** tab of the **Properties Panel** and hit **Add Modifier**, **Generate: Boolean**, **Operation: Difference**, Object: **obj1_T-Tub_1** and **Apply** the modifier.
 
     - In the **Outliner** click on the eye to hide **obj1_T-tub_1**.
     - With the cube selected, apply the current rotation and scale transform.
@@ -376,9 +369,9 @@ To get the surface representation of the cytosolic volume, we must subtract our 
     - If you would like to show the edges, go to the **Object Properties** and
       select **Wire** and **Draw all Edges**.
 
-    .. image:: ../images/add_boolean.png
+    .. image:: BlenderTutorialImages/add_boolean.png
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.boolean.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.boolean.blend>`__: Save your progress to: **tt-sr-mit.boolean.blend**
 
 **********************
 Refine Cube with GAMer
@@ -386,37 +379,37 @@ Refine Cube with GAMer
 
 Once again, we have a surface mesh to refine.
 
-#.  First, in **Edit Mode** [**Tab**], switch to **Vertex** select mode.
-#.  Deselect everything [**a**].
-#.  Next, we can click **Select**, then **Select All By Trait**, then **Non Manifold**, or [**Shift+Ctrl+Alt+m**].
+#.  First let's verify that there are no elements causing non-manifoldness.
+
+    - In **Edit Mode** [**Tab**], switch to **Vertex** select mode.
+    - Deselect everything [**a**].
+    - Next, we can click **Select**, then **Select All By Trait**, then **Non Manifold**, or [**Shift+Ctrl+Alt+m**].
     Nothing should be selected.
     If there are some issues, try performing **Degenerate Dissolve** followed by **Fill Holes**.
-#.  Return to **Object Mode** [**Tab**], and run **Mesh Analyzer**.
-    We find that the mesh is not triangulated.
 
-#.  We can triangulate as before:
+#.  After the boolean operation, the mesh is no longer triangulated.
+    We can triangulate as before:
 
-    - In **Edit Mode** **Tab**, Select All [**a**] , then select **Mesh**, then **Faces**, then **Triangulate Faces** or [**Ctrl+t**].
-    - Return to **Object Mode** [**Tab**], and run **Mesh Analyzer**. We have a good geometry to start refining.
+    - In **Edit Mode** [**Tab**], Select All [**a**] , then select **Mesh**, then **Faces**, then **Triangulate Faces** or [**Ctrl+t**].
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.boolean_clean.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.boolean_clean.blend>`__: Save your progress to: **tt-sr-mit.boolean_clean.blend**
 
+#.  Let’s begin surface refinement using GAMer:
 
-#.  Let’s begin surface refinement using GAMer
-
-    - In **Object Mode** [**Tab**] with the cube selected, perform the following operations in order.
+    - In **Edit Mode** [**Tab**] with the cube selected, perform the following operations in order.
       After each step the approximate number of vertices remaining is given.
-    - **Smooth Tris**: Max_Min = 15, S_Iter = 10 (~70K vertices)
-    - **Coarse Dense Tris**: CD_R = 0.75, CD_Iter = 10 (~57K vertices)
-    - **Coarse Flat Tris**: CF_Rate = 0.016 (~44K vertices)
-    - **Smooth Tris**: Max_Min = 15; S_Iter = 10
-    - **Coarse Dense Tris**: CD_R = 0.1, CD_Iter = 10 (~42K vertices)
-    - **Smooth Tris**: Max_Min = 20; S_Iter = 20
-    - **Normal Smooth Surf** twice
+    - **Smooth**: S_Iter = 10 (~38K vertices)
+    - **Coarse Dense**: CD_R = 0.75, CD_Iter = 10 (~34K vertices)
+    - **Coarse Flat**: CF_Rate = 0.016, CF_Iter = 1 (~19K vertices)
+    - **Smooth**: S_Iter = 10
+    - **Coarse Dense**: CD_R = 0.1, CD_Iter = 10 (~18K vertices)
+    - **Smooth**: S_Iter = 20
+    - **Normal Smooth**
 
-#.  In **Object Mode** [**Tab**], run **Mesh Analyzer**. Note the slightly smaller surface area but similar volume.
+#.  Generate a new mesh report.
+    Note the slightly smaller surface area but similar volume.
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.gamer_proc_2.blend** Now we're ready to add boundaries and associated boundary markers to the mesh!
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.gamer_proc_2.blend>`__: Save your progress to: **tt-sr-mit.gamer_proc_2.blend** Now we're ready to add boundaries and associated boundary markers to the mesh!
 
 
 *************************
@@ -430,7 +423,7 @@ Adding Cytosolic Boundary
       serves as a visual aid to help you mark. Set the color to green.
     - Change the name of the boundary to **Cytosol**.
 
-      .. image:: ../images/boundary_marking_cyto.png
+      .. image:: BlenderTutorialImages/boundary_marking_cyto.png
 
     - Enter **Edit Mode** [**Tab**] and choose **Face** select mode and begin
       selecting all faces of the cytosol. Clicking each face is very arduous! For
@@ -478,6 +471,6 @@ Adding Other Boundaries
       Set color to yellow).
       We chose the two letter abbreviations because boundary names cannot contain special characters or spaces (underscores are OK).
 
-    .. image:: ../images/all_marked.png
+    .. image:: BlenderTutorialImages/all_marked.png
 
 #.  CHECKPOINT: Save your progress to: **tt-sr-mit.all_marked.blend**
