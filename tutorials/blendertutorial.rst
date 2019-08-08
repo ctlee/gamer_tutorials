@@ -488,3 +488,12 @@ Adding Other Boundaries
 Tetrahedralization
 ***********************
 
+Next we tetrahedralize this domain.
+
+#.  In **Object Mode**, select the boundary marked mesh and click **+** in the Tetrahedralization subpanel to add the domain to be tetrahedralized.
+
+#.  Next, expand the tetrahedralization setting and set the export directory, filename prefix, and check the outputs you would like.
+    We recommend checking Paraview which will enable you to view the resulting tetrahedral mesh in Paraview.
+
+#.  Click tetrahedralize!
+
