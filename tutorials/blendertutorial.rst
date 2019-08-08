@@ -416,24 +416,27 @@ Once again, we have a surface mesh to refine.
 Adding Cytosolic Boundary
 *************************
 
-#.  Return to the **GAMer** tab and choose the **Boundary Marking** tool
+Now that the mesh is in good shape, it's time to mark boundaries for future use assigning boundary conditions.
 
-    - Add a new boundary (**+** button). By clicking on the color swatch, you can
-      select the color you wish to represent the **Cytosol**. The color only
-      serves as a visual aid to help you mark. Set the color to green.
+#.  Return to the **GAMer** tab and select the **Boundary Marking** tool and add a new boundary.
+
+    - Add a new boundary by clicking the **+** button.
+      By clicking on the color swatch, you can select the color you wish to represent the **Cytosol**.
+      The color only serves as a visual aid to help you mark.
+      Set the color to green.
     - Change the name of the boundary to **Cytosol**.
 
       .. image:: BlenderTutorialImages/boundary_marking_cyto.png
 
-    - Enter **Edit Mode** [**Tab**] and choose **Face** select mode and begin
-      selecting all faces of the cytosol. Clicking each face is very arduous! For
-      larger surfaces, you may elect to select using the **Circle Select** tool
-      [**c**] or the **Border Select** tool [**b**]. Use "Assign" to assign
-      selected faces to boundary. You can assign as you go or all together at the
-      end. Note, it can sometimes be very helpful to hide all selected faces
-      using [**h**], or hide all unselected faces using [**Shift+h**]. You can
-      unhide everything using [**Alt+h**]. In the next steps, we'll be using the
-      the **Border Select** tool [**b**].
+#.  Enter **Edit Mode** [**Tab**] and choose **Face** select mode and begin selecting all faces of the cytosol.
+    Clicking each face is very arduous!
+    For larger surfaces, you may elect to select using the **Circle Select** tool [**c**] or the **Border Select** tool [**b**].
+    Use "Assign" to assign selected faces to boundary.
+    You can assign as you go or all together at the end.
+    Note, it can sometimes be very helpful to hide all selected faces using [**h**], or hide all unselected faces using [**Shift+h**].
+    You can unhide everything using [**Alt+h**].
+
+    - In the next steps, we'll be using the **Border Select** tool [**b**].
     - Turn off the option: **Limit selection to visible**.
     - **Front-View** [**numpad 1**].
     - Select faces of **Cytosol**.
@@ -441,18 +444,18 @@ Adding Cytosolic Boundary
     - **Top-View** [**numpad 7**].
     - Select additional faces of **Cytosol**. Use **Border Select** tool [**b**] to select the profile of remaining sides.
     - Hide all unselected [**Shift+h**].
-      You may notice that some triangles from internal features may have been selected.
+      You may notice that some triangles from the organelle membranes may have been selected.
       We will fix this next by selecting linked triangles.
     - Deselect all [**a**]
     - Select one triangle, click [**RMB**].
     - Select Linked [**Ctrl+l**]
     - Hide All Deselected [**Shift+h**]
-    - Use "Assign" to assign selected faces to boundary.
-    - Turn on option: “Limit selection to visible”.
+    - Use **Assign** to assign selected faces to boundary.
+    - Turn on option: **Limit selection to visible**.
     - Unhide All [**Alt+h**]
     - Deselect all [**a**]
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.cytosol.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.cytosol.blend>`__: Save your progress to: **tt-sr-mit.cytosol.blend**
 
 
 ***********************
@@ -461,16 +464,27 @@ Adding Other Boundaries
 
 #.  When you are finished marking the cytosol, make the following changes
 
-    - Select and hide the **Cytosol** [**h**].
+    - **Select** and hide faces marked as **Cytosol** [**h**].
     - Add a new boundary named **Mitochondria** and set the color to magenta.
     - Select one face on each mitochondria [**Shift+RMB**] and Select Linked
       [**Ctrl+l**]
     - Use **Assign** to assign the selected faces to be in the mitochondria.
     - When finished, hide the mitochondria [**h**] and proceed with marking the
-      t-tubule (**TT**, Set color to blue) and sarcoplasmic reticulum (**SR**,
+      t-tubule (**T-tubule**, Set color to blue) and sarcoplasmic reticulum (**Sarcoplasmic Reticulum**,
       Set color to yellow).
-      We chose the two letter abbreviations because boundary names cannot contain special characters or spaces (underscores are OK).
+
+#.  Set the marker values of each boundary as follows:
+
+    - Cytosol: 10
+    - Mitochondria: 20
+    - T-tubule: 30
+    - Sarcoplasmic Reticulum: 40
 
     .. image:: BlenderTutorialImages/all_marked.png
 
-#.  CHECKPOINT: Save your progress to: **tt-sr-mit.all_marked.blend**
+#.  `CHECKPOINT <https://raw.githubusercontent.com/ctlee/gamer_tutorials/master/data/tt-sr-mit.all_marked.blend>`__: Save your progress to: **tt-sr-mit.all_marked.blend**
+
+***********************
+Tetrahedralization
+***********************
+
