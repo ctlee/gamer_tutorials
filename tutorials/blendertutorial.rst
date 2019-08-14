@@ -27,7 +27,7 @@ To complete this tutorial you will need the following installed on your system:
 
 Our model of interest today is the murine cardiac myocyte calcium release unit.
 You can get the raw electron micrographs and segmentations from the `Cell Image Library <http://www.cellimagelibrary.org/home>`__, a collection of 2D, 3D, and 4D cellular and subcellular data derived from light and electron microscopy.
-The data we will be using today is from entry `3603 <https://library.ucsd.edu/dc/object/bb80572041>`__.
+The data we will be using today is from entry `3603 <http://cellimagelibrary.org/images/CCDB_3603>`__.
 For the purposes of this tutorial, we have selected a nicely segmented section of the dataset for model building, shown in :numref:`figcomponents`.
 The software `IMOD <https://bio3d.colorado.edu/imod/>`__ was used to segment and generate a preliminary mesh in this example.
 
