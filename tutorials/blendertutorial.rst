@@ -337,7 +337,7 @@ In the next section we will use a mesh boolean operation to perform the inversio
     We need to convert it to a triangular mesh.
 
     - In **Edit Mode** [**Tab**] triangulate by selecting **Mesh**, then **Faces**, then **Triangulate Faces**.
-    Or you could use [**Ctrl+t**] as a shortcut.
+      Or you could use [**Ctrl+t**] as a shortcut.
 
 #.  The cube currently has too few triangles.
     If we performed the boolean mesh subtraction with this mesh, the post-triangulated result will contain may high aspect ratio triangles.
@@ -384,8 +384,8 @@ Once again, we have a surface mesh to refine.
     - In **Edit Mode** [**Tab**], switch to **Vertex** select mode.
     - Deselect everything [**a**].
     - Next, we can click **Select**, then **Select All By Trait**, then **Non Manifold**, or [**Shift+Ctrl+Alt+m**].
-    Nothing should be selected.
-    If there are some issues, try performing **Degenerate Dissolve** followed by **Fill Holes**.
+      Nothing should be selected.
+      If there are some issues, try performing **Degenerate Dissolve** followed by **Fill Holes**.
 
 #.  After the boolean operation, the mesh is no longer triangulated.
     We can triangulate as before:
